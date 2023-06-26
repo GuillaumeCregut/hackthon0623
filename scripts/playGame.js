@@ -40,5 +40,5 @@ const displayBoard = () => {
 startBtn.addEventListener('click', () => {
   map = [...newGameBoard.getMap()];
   displayBoard();
-  setTank();
+  //const player
 });
