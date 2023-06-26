@@ -8,7 +8,11 @@
   </head>
   <body>
     <h1>Bataille de Koursk</h1>
-    <div class="players"></div>
+    <div class="players">
+      <label for="name"
+        >Votre nom : <input type="text" name="name" id="name"
+      /></label>
+    </div>
     <div class="game">
       <button id="start-btn">Démarrer la partie</button>
     </div>
@@ -17,9 +21,19 @@
         <div class="vehicules">
           <img src="./assets/tanks/" alt="" />
         </div>
-        <canvas id="canvas1">
-          Votre navigateur ne supporte pas les canvas
-        </canvas>
+        <div class="canvas-container">
+          <canvas id="canvas1">
+            Votre navigateur ne supporte pas les canvas
+          </canvas>
+          <div class="win-modal hidden-modal" id="win-modal">
+            Bravo, vous avez gagné !
+          </div>
+        </div>
+      </div>
+      <div class="dialog-container">
+        <div class="dialog" id="dialog">
+          <ul id="dialog-list"></ul>
+        </div>
       </div>
     </div>
     <script src="./scripts/playGame.js" type="module"></script>

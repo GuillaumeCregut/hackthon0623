@@ -1,6 +1,26 @@
 import GameBoard from './classes/GameBoard.js';
 import Player from './classes/Player.js';
 import Vehicule from './classes/Vehicule.js';
+const modal = document.getElementById('win-modal');
+const dialog = document.getElementById('dialog-list');
+
+const clearDialog = () => {
+  while (dialog.firstChild) {
+    dialog.removeChild(dialog.lastChild);
+  }
+};
+
+const displayWin = () => {
+  modal.classList.remove('hidden-modal');
+  modal.classList.add('visible-modal');
+};
+
+const appendDialog = (line) => {
+  const newLine = document.createElement('li');
+  newLine.textContent = line;
+  dialog.appendChild(newLine);
+};
+
 const shotArray = [];
 let init = false;
 const obstacle = 2;
@@ -28,7 +48,7 @@ const tiles = [
   '12water2.bmp',
 ];
 
-const player1 = new Player('Guillaume');
+const player1 = new Player('');
 
 const startBtn = document.getElementById('start-btn');
 
@@ -52,13 +72,20 @@ const displayBoard = () => {
 
 startBtn.addEventListener('click', () => {
   map = [...newGameBoard.getMap()];
+  const nameBox = document.getElementById('name');
+  player1.name = nameBox.value;
+  modal.classList.remove('visible-modal');
+  modal.classList.add('hidden-modal');
+  clearDialog();
   //Init player2
-  const player2X = Math.floor(Math.random() * mapWitdh);
-  const player2Y = Math.floor(Math.random() * mapHeight);
+  player2Target.x = Math.floor(Math.random() * mapWitdh);
+  player2Target.y = Math.floor(Math.random() * mapHeight);
 
+  console.log(player2Target.x, player2Target.y);
   displayBoard();
   const newTank = new Vehicule(1, 0, 0, 2, tileFormat, player1Canvas, ctx1);
   player1.addVehicule(newTank);
+  appendDialog(`${player1.name} initialise la partie`);
 });
 
 const refreshDraw = () => {
@@ -97,10 +124,15 @@ player1Canvas.addEventListener('click', (e) => {
     if (player2Target.x === target.x && player2Target.y === target.y) {
       pathImg = './assets/tiles/crash.png';
       shotArray.push({ target: target, value: 1 });
-      console.log('destroy');
+      appendDialog(
+        `${player1.name} détruit l'ennemi position (${player2Target.x},${player2Target.y})`
+      );
+      displayWin();
     } else {
-      console.log('loupé');
       shotArray.push({ target: target, value: 0 });
+      appendDialog(
+        `${player1.name} tir sur la position (${target.x},${target.y})`
+      );
       pathImg = './assets/tiles/burnt.bmp';
     }
     const destX = target.x * tileFormat.w;

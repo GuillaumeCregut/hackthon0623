@@ -3,3 +3,56 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.game-board {
+  display: flex;
+  gap: 100px;
+}
+
+canvas {
+  width: 640px;
+  height: 640px;
+  position: relative;
+}
+
+.win-modal {
+  position: absolute;
+  background-color: white;
+  border: solid 1px black;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hidden-modal {
+  visibility: hidden;
+  top: 0;
+  left: 0;
+  width: 0px;
+  z-index: -100;
+  height: 0px;
+}
+
+.visible-modal {
+  height: 50%;
+  width: 50%;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.canvas-container {
+  position: relative;
+}
+
+.dialog {
+  border: 1px solid black;
+  background-color: white;
+  width: 450px;
+  height: 600px;
+}
+
+#dialog-list {
+  list-style-type: none;
+}
