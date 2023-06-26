@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles/index.css" />
+    <title>Bataille Koursk</title>
+  </head>
+  <body>
+    <h1>Bataille de Koursk</h1>
+    <div class="players"></div>
+    <div class="game">
+      <button id="start-btn">Démarrer la partie</button>
+      <button id="start-btn2">Démarrer la partie2</button>
+    </div>
+    <div class="game-board">
+      <div class="playe-one">
+        <div class="vehicules">
+          <img src="./assets/tanks/" alt="" />
+        </div>
+        <canvas id="canvas1">
+          Votre navigateur ne supporte pas les canvas
+        </canvas>
+      </div>
+      <div class="playe-two">
+        <canvas id="canvas2">
+          Votre navigateur ne supporte pas les canvas
+        </canvas>
+      </div>
+    </div>
+    <!-- <script src="./scripts/classes/GameBoard.js"></script>
+    <script src="./scripts/classes/Vehicules.js"></script>
+    <script src="./scripts/classes/Player.js"></script> -->
+    <script src="./scripts/playGame.js" type="module"></script>
+  </body>
+</html>
