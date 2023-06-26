@@ -10,6 +10,7 @@ class Vehicule {
     this.tileFormat = tileFormat;
     this.canvas = canvas;
     this.ctx = ctx;
+    this.placeVehicule(this.x, this.y, 180);
     // let path = './assets/tanks/tank1.png';
     // this.image = new Image();
     // this.image.onload = () => {
@@ -51,8 +52,8 @@ class Vehicule {
   }
 
   getCell() {
-    const x = this.x % this.tileFormat.w;
-    const y = this.y % this.tileFormat.h;
+    const x = Math.floor(this.x / this.tileFormat.w);
+    const y = Math.floor(this.y / this.tileFormat.h);
     return { x, y };
   }
 
@@ -65,6 +66,20 @@ class Vehicule {
 
   placeVehicule(x, y, angle = 0) {
     let path = './assets/tanks/tank1.png';
+    switch (angle) {
+      case 0:
+        path = './assets/tanks/tankdown.png';
+        break;
+      case 90:
+        path = './assets/tanks/tankright.png';
+        break;
+      case 180:
+        './assets/tanks/tank1.png';
+        break;
+      case 270:
+        path = './assets/tanks/tankleft.png';
+        break;
+    }
     const centerCell = this.getCenterCell();
     const img = new Image();
     this.x = x;
@@ -84,10 +99,9 @@ class Vehicule {
         ratio = img.height / this.tileFormat.h;
         imageWidth = img.width / ratio;
       }
-
-      this.ctx.translate(centerCell.x, centerCell.y);
-      this.ctx.rotate((angle * Math.PI) / 180);
-      this.ctx.translate(-centerCell.x, -centerCell.y);
+      // this.ctx.translate(centerCell.x, centerCell.y);
+      // this.ctx.rotate((angle * Math.PI) / 180);
+      // this.ctx.translate(-centerCell.x, -centerCell.y);
       this.ctx.drawImage(img, x, y, imageWidth, imageHeight);
     };
   }
