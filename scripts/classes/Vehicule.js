@@ -10,23 +10,23 @@ class Vehicule {
     this.tileFormat = tileFormat;
     this.canvas = canvas;
     this.ctx = ctx;
-    let path = './assets/tanks/tank1.png';
-    this.image = new Image();
-    this.image.onload = () => {
-      let ratio = 0;
-      let imageHeight = 0;
-      let imageWidth = 0;
-      if (this.image.width > this.image.height) {
-        this.imageWidth = this.tileFormat.w;
-        ratio = this.image.width / this.tileFormat.w;
-        this.imageHeight = this.image.height / ratio;
-      } else {
-        this.imageHeight = this.tileFormat.h;
-        ratio = this.image.height / this.tileFormat.h;
-        this.imageWidth = this.image.width / ratio;
-      }
-      this.loaded = true;
-    };
+    // let path = './assets/tanks/tank1.png';
+    // this.image = new Image();
+    // this.image.onload = () => {
+    //   let ratio = 0;
+    //   let imageHeight = 0;
+    //   let imageWidth = 0;
+    //   if (this.image.width > this.image.height) {
+    //     this.imageWidth = this.tileFormat.w;
+    //     ratio = this.image.width / this.tileFormat.w;
+    //     this.imageHeight = this.image.height / ratio;
+    //   } else {
+    //     this.imageHeight = this.tileFormat.h;
+    //     ratio = this.image.height / this.tileFormat.h;
+    //     this.imageWidth = this.image.width / ratio;
+    //   }
+    //   this.loaded = true;
+    // };
   }
   shoot() {}
   takeDamage(damage) {
@@ -74,7 +74,6 @@ class Vehicule {
       this.ctx.rotate((angle * Math.PI) / 180);
       this.ctx.translate(-centerCell.x, -centerCell.y);
       this.ctx.drawImage(img, x, y, imageWidth, imageHeight);
-      this.ctx.rotate(0);
     };
   }
 }

@@ -4,6 +4,7 @@ import Vehicule from './classes/Vehicule.js';
 let init = false;
 let lastMouseX = 0;
 let lastMouseY = 0;
+const obstacle = 2;
 
 const tileFormat = { w: 64, h: 64 };
 const player1Canvas = document.getElementById('canvas1');
@@ -51,6 +52,8 @@ const displayBoard = () => {
 
 startBtn.addEventListener('click', () => {
   map = [...newGameBoard.getMap()];
+  ctx1.resetTransform();
+
   displayBoard();
   const newTank = new Vehicule(1, 0, 0, 2, tileFormat, player1Canvas, ctx1);
   player1.addVehicule(newTank);

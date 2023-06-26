@@ -19,9 +19,13 @@ class GameBoard {
     const board = [];
     for (let i = 0; i < this.width; i++) {
       const lineBoard = [];
+      let randomElement = 0;
       for (let j = 0; j < this.height; j++) {
-        const randomElement =
-          tileType[Math.floor(Math.random() * tileType.length)];
+        if (i < 2 && j < 2) {
+          randomElement = 0;
+        } else {
+          randomElement = tileType[Math.floor(Math.random() * tileType.length)];
+        }
         lineBoard.push(randomElement);
       }
       board.push(lineBoard);
