@@ -52,7 +52,9 @@ const displayBoard = () => {
 
 startBtn.addEventListener('click', () => {
   map = [...newGameBoard.getMap()];
-  ctx1.resetTransform();
+  //Init player2
+  const player2X = Math.floor(Math.random() * mapWitdh);
+  const player2Y = Math.floor(Math.random() * mapHeight);
 
   displayBoard();
   const newTank = new Vehicule(1, 0, 0, 2, tileFormat, player1Canvas, ctx1);

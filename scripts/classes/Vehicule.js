@@ -11,24 +11,8 @@ class Vehicule {
     this.canvas = canvas;
     this.ctx = ctx;
     this.placeVehicule(this.x, this.y, 180);
-    // let path = './assets/tanks/tank1.png';
-    // this.image = new Image();
-    // this.image.onload = () => {
-    //   let ratio = 0;
-    //   let imageHeight = 0;
-    //   let imageWidth = 0;
-    //   if (this.image.width > this.image.height) {
-    //     this.imageWidth = this.tileFormat.w;
-    //     ratio = this.image.width / this.tileFormat.w;
-    //     this.imageHeight = this.image.height / ratio;
-    //   } else {
-    //     this.imageHeight = this.tileFormat.h;
-    //     ratio = this.image.height / this.tileFormat.h;
-    //     this.imageWidth = this.image.width / ratio;
-    //   }
-    //   this.loaded = true;
-    // };
   }
+
   shoot(cell) {
     // console.log(cell);
     const centerX = cell.x * (this.tileFormat.w * 1.5);
@@ -45,6 +29,7 @@ class Vehicule {
     const tanAlpha = A / B;
     //  console.log('tan', tanAlpha);
   }
+
   takeDamage(damage) {
     if (this.damage - damage > size) return 0;
     this.damage += damage;
