@@ -1,10 +1,12 @@
 import GameBoard from './classes/GameBoard.js';
 import Player from './classes/Player.js';
 import Vehicule from './classes/Vehicule.js';
+const shotArray = [];
 let init = false;
 let lastMouseX = 0;
 let lastMouseY = 0;
 const obstacle = 2;
+const player2Target = { x: 1, y: 1 };
 
 const tileFormat = { w: 64, h: 64 };
 const player1Canvas = document.getElementById('canvas1');
@@ -57,7 +59,7 @@ startBtn.addEventListener('click', () => {
   displayBoard();
   const newTank = new Vehicule(1, 0, 0, 2, tileFormat, player1Canvas, ctx1);
   player1.addVehicule(newTank);
-  player1.vehicule[0].placeVehicule(0, 0, 180);
+  player1.vehicule[0].placeVehicule(0, 0, 90);
 });
 
 const refreshDraw = () => {
@@ -67,6 +69,17 @@ const refreshDraw = () => {
     const vy = player1.vehicule[0].y;
     player1.vehicule[0].placeVehicule(ctx1, vx, vy, mapWitdh, mapHeight);
   }
+  shotArray.forEach((element) => {
+    pathImg = './assets/tiles/burnt.bmp';
+    const destX = element.target.x * tileFormat.w;
+    const destY = element.target.y * tileFormat.h;
+    const imageShot = new Image();
+    imageShot.src = pathImg;
+    imageShot.onload = () => {
+      ctx1.resetTransform();
+      ctx1.drawImage(imageShot, destX, destY, tileFormat.w, tileFormat.h);
+    };
+  });
 };
 
 player1Canvas.addEventListener('click', (e) => {
@@ -79,8 +92,25 @@ player1Canvas.addEventListener('click', (e) => {
   const deltaX = target.x - position.x;
   const deltaY = target.y - position.y;
   const range = player1.vehicule[0]?.strength;
+  let pathImg = '';
   if (deltaX <= range && deltaY <= range) {
-    console.log('tir');
+    player1.vehicule[0].shoot(target);
+    if (player2Target.x === target.x && player2Target.y === target.y) {
+      pathImg = './assets/tiles/crash.png';
+      console.log('destroy');
+    } else {
+      console.log('loupé');
+      shotArray.push({ target: target, value: 0 });
+      pathImg = './assets/tiles/burnt.bmp';
+    }
+    const destX = target.x * tileFormat.w;
+    const destY = target.y * tileFormat.h;
+    const imageShot = new Image();
+    imageShot.src = pathImg;
+    imageShot.onload = () => {
+      ctx1.resetTransform();
+      ctx1.drawImage(imageShot, destX, destY, tileFormat.w, tileFormat.h);
+    };
   } else {
     const sound = new Audio('./assets/sounds/wrong.mp3');
     sound.play();

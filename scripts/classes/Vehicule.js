@@ -28,7 +28,22 @@ class Vehicule {
     //   this.loaded = true;
     // };
   }
-  shoot() {}
+  shoot(cell) {
+    // console.log(cell);
+    const centerX = cell.x * (this.tileFormat.w * 1.5);
+    const centerY = cell.y * (this.tileFormat.h * 1.5);
+    const sound = new Audio('./assets/sounds/shot.mp3');
+    sound.play();
+    //animate shot
+    const centerPosition = this.getCenterCell();
+    //  console.log(centerPosition, centerX, centerY);
+    //Calcul de la trajectoire
+    const A = Math.abs(centerX - cell.x);
+    const B = Math.abs(centerY - cell.y);
+    //  console.log(parseFloat(A), parseFloat(B));
+    const tanAlpha = A / B;
+    //  console.log('tan', tanAlpha);
+  }
   takeDamage(damage) {
     if (this.damage - damage > size) return 0;
     this.damage += damage;
