@@ -24,7 +24,9 @@ const appendDialog = (line) => {
 const shotArray = [];
 let init = false;
 const obstacle = 2;
-const player2Target = { x: 1, y: 1 };
+const player2 = new Player('IA');
+const p2Vehicule = { x: 1, y: 1 };
+player2.addVehicule(p2Vehicule);
 
 const tileFormat = { w: 64, h: 64 };
 const player1Canvas = document.getElementById('canvas1');
@@ -70,6 +72,8 @@ const displayBoard = () => {
   init = true;
 };
 
+const player2Shoot = () => {};
+
 startBtn.addEventListener('click', () => {
   map = [...newGameBoard.getMap()];
   const nameBox = document.getElementById('name');
@@ -78,10 +82,10 @@ startBtn.addEventListener('click', () => {
   modal.classList.add('hidden-modal');
   clearDialog();
   //Init player2
-  player2Target.x = Math.floor(Math.random() * mapWitdh);
-  player2Target.y = Math.floor(Math.random() * mapHeight);
+  player2.vehicule[0].x = Math.floor(Math.random() * mapWitdh);
+  player2.vehicule[0].y = Math.floor(Math.random() * mapHeight);
 
-  console.log(player2Target.x, player2Target.y);
+  console.log(player2.vehicule[0].x, player2.vehicule[0].y);
   displayBoard();
   const newTank = new Vehicule(1, 0, 0, 2, tileFormat, player1Canvas, ctx1);
   player1.addVehicule(newTank);
@@ -121,11 +125,14 @@ player1Canvas.addEventListener('click', (e) => {
   let pathImg = '';
   if (deltaX <= range && deltaY <= range) {
     player1.vehicule[0].shoot(target);
-    if (player2Target.x === target.x && player2Target.y === target.y) {
+    if (
+      player2.vehicule[0].x === target.x &&
+      player2.vehicule[0].y === target.y
+    ) {
       pathImg = './assets/tiles/crash.png';
       shotArray.push({ target: target, value: 1 });
       appendDialog(
-        `${player1.name} détruit l'ennemi position (${player2Target.x},${player2Target.y})`
+        `${player1.name} détruit l'ennemi position (${player2.vehicule[0].x},${player2.vehicule[0].y})`
       );
       displayWin();
     } else {
