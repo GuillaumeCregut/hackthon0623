@@ -70,21 +70,7 @@ class Vehicule {
     bullet.style.transform = `translate(${translateX}%,${translateY}%) rotate(${angleFire}deg)`;
     bullet.classList.toggle('bullet-hide');
     //launch animation
-
-    let tanAlpha = 0;
-    let fireAngle = 0;
-    console.log(A, B);
-    const ctx2 = this.canvas.getContext('2d');
-    ctx2.save();
-    ctx2.translate(centerPosition.x, centerPosition.y);
-    ctx2.rotate(fireAngle);
-    ctx2.translate(-centerPosition.x, -centerPosition.y);
-
-    // const bulletImg = new Image();
-    // bulletImg.src = './assets/tanks/bullet.png';
-    // bulletImg.onload = () => {
-    //   ctx2.drawImage(bulletImg, centerPosition.x, centerPosition.y, 40, 40);
-    // };
+    //bullet.animate()
   }
 
   takeDamage(damage) {
