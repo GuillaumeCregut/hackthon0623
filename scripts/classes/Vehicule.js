@@ -78,7 +78,6 @@ class Vehicule {
     img.src = path;
 
     img.onload = () => {
-      console.log(img);
       let ratio = 0;
       let imageHeight = 0;
       let imageWidth = 0;
