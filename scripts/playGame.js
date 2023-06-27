@@ -97,11 +97,20 @@ const player2Shoot = () => {
   if (newCell.x > 0 && newCell.y > 0) {
     appendDialog(`tir de IA : vers la position (${newCell.x},${newCell.y})`);
     const p1Target = player1.vehicule[0].getCell();
-    console.log(p1Target);
     if (p1Target.x === newCell.x && p1Target.y === newCell.y) {
       appendDialog(
         `tir de IA : position : (${cellX},${cellY}) a détruit votre véhicule`
       );
+      player1.vehicule[0].damage = 1;
+      pathImg = './assets/tiles/crash.png';
+      const destX = player1.vehicule[0].x * tileFormat.w;
+      const destY = player1.vehicule[0].y * tileFormat.h;
+      const imageShot = new Image();
+      imageShot.src = pathImg;
+      imageShot.onload = () => {
+        ctx1.resetTransform();
+        ctx1.drawImage(imageShot, destX, destY, tileFormat.w, tileFormat.h);
+      };
       modal.innerHTML = 'Vous avez perdu';
       displayWin();
     }
@@ -109,8 +118,12 @@ const player2Shoot = () => {
 };
 bouton.addEventListener('click', player2Shoot);
 startBtn.addEventListener('click', () => {
-  map = [...newGameBoard.getMap()];
   const nameBox = document.getElementById('name');
+  if (nameBox.value === '') {
+    alert('Veuillez saisir votre nom');
+    return;
+  }
+  map = [...newGameBoard.getMap()];
   player1.name = nameBox.value;
   modal.classList.remove('visible-modal');
   modal.classList.add('hidden-modal');
@@ -118,8 +131,6 @@ startBtn.addEventListener('click', () => {
   //Init player2
   player2.vehicule[0].x = Math.floor(Math.random() * mapWitdh);
   player2.vehicule[0].y = Math.floor(Math.random() * mapHeight);
-
-  console.log(player2.vehicule[0].x, player2.vehicule[0].y);
   displayBoard();
   const newTank = new Vehicule(1, 0, 0, 2, tileFormat, player1Canvas, ctx1);
   player1.addVehicule(newTank);
@@ -166,7 +177,7 @@ player1Canvas.addEventListener('click', (e) => {
       pathImg = './assets/tiles/crash.png';
       shotArray.push({ target: target, value: 1 });
       appendDialog(
-        `${player1.name} détruit l'ennemi position (${player2.vehicule[0].x},${player2.vehicule[0].y})`
+        `${player1.name} détruit l'ennemi position (${player2.vehicule[0].x},${player2.vehicule[0].y} en ${player1.vehicule[0].shotCount})`
       );
       displayWin();
       player2.vehicule[0].damage = 1;

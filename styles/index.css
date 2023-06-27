@@ -8,7 +8,12 @@ body {
   display: flex;
   gap: 100px;
 }
-
+.canvas-container {
+  min-width: 640px;
+  min-height: 640px;
+  background-color: rgba(73, 69, 69, 0.634);
+  cursor: url('../assets/target.cur'), pointer;
+}
 canvas {
   width: 640px;
   height: 640px;

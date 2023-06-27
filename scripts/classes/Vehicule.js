@@ -11,14 +11,17 @@ class Vehicule {
     this.canvas = canvas;
     this.ctx = ctx;
     this.placeVehicule(this.x, this.y, 180);
+    this.shotCount = 0;
   }
 
   shoot(cell) {
+    if (this.damage >= this.size) return;
     // console.log(cell);
     const centerX = cell.x * (this.tileFormat.w * 1.5);
     const centerY = cell.y * (this.tileFormat.h * 1.5);
     const sound = new Audio('./assets/sounds/shot.mp3');
     sound.play();
+    this.shotCount++;
     //animate shot
     const centerPosition = this.getCenterCell();
     //  console.log(centerPosition, centerX, centerY);
@@ -50,6 +53,9 @@ class Vehicule {
   }
 
   placeVehicule(x, y, angle = 0) {
+    if (this.damage >= this.size) return;
+    const sound = new Audio('./assets/sounds/run.mp3');
+    sound.play();
     let path = './assets/tanks/tank1.png';
     switch (angle) {
       case 0:
