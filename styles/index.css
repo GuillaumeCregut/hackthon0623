@@ -75,6 +75,16 @@ canvas {
   cursor: url('../assets/target.cur'), pointer;
 }
 
+.image-bullet {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  z-index: 14;
+}
+.bullet-hide {
+  /*display: none;*/
+}
+
 .win-modal {
   position: absolute;
   background-color: white;

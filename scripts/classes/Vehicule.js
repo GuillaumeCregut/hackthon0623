@@ -16,7 +16,6 @@ class Vehicule {
 
   shoot(cell) {
     if (this.damage >= this.size) return;
-    // console.log(cell);
     const centerX = cell.x * (this.tileFormat.w * 1.5);
     const centerY = cell.y * (this.tileFormat.h * 1.5);
     const sound = new Audio('./assets/sounds/shot.mp3');
@@ -24,13 +23,68 @@ class Vehicule {
     this.shotCount++;
     //animate shot
     const centerPosition = this.getCenterCell();
-    //  console.log(centerPosition, centerX, centerY);
+    console.log('cells', centerPosition, 'center target', centerX, centerY);
     //Calcul de la trajectoire
-    const A = Math.abs(centerX - cell.x);
-    const B = Math.abs(centerY - cell.y);
-    //  console.log(parseFloat(A), parseFloat(B));
-    const tanAlpha = A / B;
-    //  console.log('tan', tanAlpha);
+    const xFinal = centerX - centerPosition.x;
+    const yFinal = centerY - centerPosition.y;
+    const cellPosition = this.getCell();
+    const A = cell.x - cellPosition.x;
+    const B = cell.y - cellPosition.y;
+    let angleFire = 0;
+    let translateX = -50;
+    let translateY = -50;
+
+    //Calcul rotation
+    if (A === 0 && B !== 0) {
+      //Rotation droite ou gauche suivant le sens de B
+      if (B > 0) {
+        //droite
+        angleFire = -90;
+        translateX = -50;
+        console.log('cas A', A, B);
+      } else {
+        angleFire = 90;
+        console.log('cas B', A, B);
+        //translateX = -100;
+      }
+    }
+    if (B === 0 && A !== 0) {
+      //Rotation haut bas suivant sens de A
+      if (A < 0) {
+        //haut
+        angleFire = 0;
+        translateX = -50;
+        translateY = -50;
+        console.log('cas C', A, B);
+      } else {
+        angleFire = 180;
+        translateX = -50;
+        console.log('cas D', A, B);
+      }
+    }
+    bullet.style.top = `${centerPosition.x}px`;
+    bullet.style.left = `${centerPosition.y}px`;
+    console.log(
+      `rotate(${angleFire}deg) translate(${translateX}%,${translateY}%)`
+    );
+    bullet.style.transform = `translate(${translateX}%,${translateY}%) rotate(${angleFire}deg)`;
+    bullet.classList.toggle('bullet-hide');
+    //launch animation
+
+    let tanAlpha = 0;
+    let fireAngle = 0;
+    console.log(A, B);
+    const ctx2 = this.canvas.getContext('2d');
+    ctx2.save();
+    ctx2.translate(centerPosition.x, centerPosition.y);
+    ctx2.rotate(fireAngle);
+    ctx2.translate(-centerPosition.x, -centerPosition.y);
+
+    // const bulletImg = new Image();
+    // bulletImg.src = './assets/tanks/bullet.png';
+    // bulletImg.onload = () => {
+    //   ctx2.drawImage(bulletImg, centerPosition.x, centerPosition.y, 40, 40);
+    // };
   }
 
   takeDamage(damage) {

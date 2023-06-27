@@ -11,6 +11,7 @@ const ColumnNumber = document.getElementById('nb-column');
 //const bouton = document.getElementById('stop-btn');
 
 const ctx1 = player1Canvas.getContext('2d');
+const ctx2 = player1Canvas.getContext('2d');
 
 const shotArray = [];
 let init = false;
@@ -107,7 +108,7 @@ const player2Shoot = () => {
         `tir de IA : position : (${cellX},${cellY}) a détruit votre véhicule`
       );
       player1.vehicule[0].damage = 1;
-      pathImg = './assets/tiles/crash.png';
+      const pathImg = './assets/tiles/crash.png';
       const destX = player1.vehicule[0].x * tileFormat.w;
       const destY = player1.vehicule[0].y * tileFormat.h;
       const imageShot = new Image();
@@ -227,6 +228,7 @@ player1Canvas.addEventListener('click', (e) => {
   const range = player1.vehicule[0]?.strength;
   let pathImg = '';
   if (deltaX <= range && deltaY <= range) {
+    console.log(target);
     player1.vehicule[0].shoot(target);
     if (
       player2.vehicule[0].x === target.x &&
@@ -263,6 +265,7 @@ player1Canvas.addEventListener('click', (e) => {
 });
 
 startBtn.addEventListener('click', () => {
+  shotArray.splice(0, shotArray.length);
   const nameBox = document.getElementById('name');
   if (nameBox.value === '') {
     alert('Veuillez saisir votre nom');
