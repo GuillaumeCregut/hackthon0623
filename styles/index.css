@@ -1,5 +1,116 @@
+@font-face {
+  font-family: german;
+  src: url('../assets/GermaniaOne-Regular.ttf');
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 body {
   background-image: url('../assets/background2.jpg');
   background-repeat: no-repeat;
   background-size: cover;
+  padding: 10px;
+}
+
+h1 {
+  text-align: center;
+  font-family: german;
+  font-size: 75px;
+}
+
+.info {
+  margin: 10px auto;
+  width: 50vw;
+}
+
+.key-list {
+  list-style: none;
+}
+
+.game {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.label-name {
+  margin: 20px 0;
+  display: block;
+}
+
+.grid-settings {
+  display: flex;
+  gap: 10px;
+  margin: 0 10px;
+}
+
+.tank-settings {
+  margin: 10px 0;
+}
+
+#start-btn {
+  width: 120px;
+  margin-left: 20px;
+}
+
+.game-board {
+  display: flex;
+  gap: 100px;
+}
+
+.canvas-container {
+  min-width: 640px;
+  min-height: 640px;
+  background-color: rgba(73, 69, 69, 0.634);
+  position: relative;
+}
+
+canvas {
+  width: 640px;
+  height: 640px;
+  position: relative;
+  cursor: url('../assets/target.cur'), pointer;
+}
+
+.win-modal {
+  position: absolute;
+  background-color: white;
+  border: solid 1px black;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hidden-modal {
+  visibility: hidden;
+  top: 0;
+  left: 0;
+  width: 0px;
+  z-index: -100;
+  height: 0px;
+}
+
+.visible-modal {
+  height: 50%;
+  width: 50%;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.dialog {
+  border: 1px solid black;
+  background-color: white;
+  width: 450px;
+  height: 600px;
+  overflow-y: scroll;
+}
+
+#dialog-list {
+  list-style-type: none;
 }

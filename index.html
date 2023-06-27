@@ -2,35 +2,94 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="./assets/favicon.ico" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./styles/index.css" />
     <title>Bataille Koursk</title>
   </head>
   <body>
     <h1>Bataille de Koursk</h1>
-    <div class="players"></div>
+    <div class="players">
+      <div class="info">
+        Vous devez chercher votre ennemi, tapis dans l'ombre, et le détruire
+        avant qu'il ne vous détruise. Pour cela, vous pouvez vous déplacer en
+        utilisant les touches :<br />
+        <ul class="key-list">
+          <li>q : gauche</li>
+          <li>d : droite</li>
+          <li>z : haut</li>
+          <li>s : bas</li>
+        </ul>
+        Pour tirer, visez une cible et cliquer dessus. Attention, votre char a
+        une portée maximum.
+      </div>
+      <label for="name" class="label-name">
+        Votre nom : <input type="text" name="name" id="name"
+      /></label>
+    </div>
     <div class="game">
+      <div class="game-settings">
+        <div class="grid-settings">
+          <label for="nb-column">
+            Nombre de colonnes :
+            <select name="select" id="nb-column">
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10" selected>10</option>
+            </select>
+          </label>
+          <label for="nb-line">
+            Nombre de lignes :
+            <select name="select" id="nb-line">
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10" selected>10</option>
+            </select>
+          </label>
+        </div>
+        <div class="tank-settings">
+          <label for="fire-power">
+            Puissance :
+            <select name="select" id="fire-power">
+              <option value="2">2</option>
+              <option value="3" selected>3</option>
+            </select>
+          </label>
+        </div>
+      </div>
       <button id="start-btn">Démarrer la partie</button>
-      <button id="start-btn2">Démarrer la partie2</button>
+      <!-- <button id="stop-btn">Démarrer la partie</button> -->
     </div>
     <div class="game-board">
       <div class="playe-one">
         <div class="vehicules">
           <img src="./assets/tanks/" alt="" />
         </div>
-        <canvas id="canvas1">
-          Votre navigateur ne supporte pas les canvas
-        </canvas>
+        <div class="canvas-container">
+          <canvas id="canvas1">
+            Votre navigateur ne supporte pas les canvas
+          </canvas>
+          <div class="win-modal hidden-modal" id="win-modal">
+            Bravo, vous avez gagné !
+          </div>
+        </div>
       </div>
-      <div class="playe-two">
-        <canvas id="canvas2">
-          Votre navigateur ne supporte pas les canvas
-        </canvas>
+      <div class="dialog-container">
+        <div class="dialog" id="dialog">
+          <ul id="dialog-list"></ul>
+        </div>
       </div>
     </div>
-    <!-- <script src="./scripts/classes/GameBoard.js"></script>
-    <script src="./scripts/classes/Vehicules.js"></script>
-    <script src="./scripts/classes/Player.js"></script> -->
     <script src="./scripts/playGame.js" type="module"></script>
   </body>
 </html>
