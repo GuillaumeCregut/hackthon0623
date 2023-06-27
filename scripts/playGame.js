@@ -3,6 +3,7 @@ import Player from './classes/Player.js';
 import Vehicule from './classes/Vehicule.js';
 const modal = document.getElementById('win-modal');
 const dialog = document.getElementById('dialog-list');
+const bouton = document.getElementById('stop-btn');
 
 const clearDialog = () => {
   while (dialog.firstChild) {
@@ -25,7 +26,7 @@ const shotArray = [];
 let init = false;
 const obstacle = 2;
 const player2 = new Player('IA');
-const p2Vehicule = { x: 1, y: 1 };
+const p2Vehicule = { x: 1, y: 1, strength: 4, damage: 0 };
 player2.addVehicule(p2Vehicule);
 
 const tileFormat = { w: 64, h: 64 };
@@ -72,8 +73,41 @@ const displayBoard = () => {
   init = true;
 };
 
-const player2Shoot = () => {};
-
+const player2Shoot = () => {
+  const p2Vehicule = player2.vehicule[0];
+  if (p2Vehicule.damage === 1) return;
+  console.log(p2Vehicule);
+  const cellX = p2Vehicule.x;
+  const cellY = p2Vehicule.y;
+  const randomFireX = Math.floor(Math.random() * p2Vehicule.strength);
+  const randomFireY = Math.floor(Math.random() * p2Vehicule.strength);
+  const signX = Math.random() * 10 > 5;
+  const signY = Math.random() * 10 > 5;
+  const newCell = { x: 0, y: 0 };
+  if (signX) {
+    newCell.x = cellX + randomFireX;
+  } else {
+    newCell.x = cellX - randomFireX;
+  }
+  if (signY) {
+    newCell.y = cellY + randomFireY;
+  } else {
+    newCell.y = cellY - randomFireY;
+  }
+  if (newCell.x > 0 && newCell.y > 0) {
+    appendDialog(`tir de IA : vers la position (${newCell.x},${newCell.y})`);
+    const p1Target = player1.vehicule[0].getCell();
+    console.log(p1Target);
+    if (p1Target.x === newCell.x && p1Target.y === newCell.y) {
+      appendDialog(
+        `tir de IA : position : (${cellX},${cellY}) a détruit votre véhicule`
+      );
+      modal.innerHTML = 'Vous avez perdu';
+      displayWin();
+    }
+  }
+};
+bouton.addEventListener('click', player2Shoot);
 startBtn.addEventListener('click', () => {
   map = [...newGameBoard.getMap()];
   const nameBox = document.getElementById('name');
@@ -135,6 +169,8 @@ player1Canvas.addEventListener('click', (e) => {
         `${player1.name} détruit l'ennemi position (${player2.vehicule[0].x},${player2.vehicule[0].y})`
       );
       displayWin();
+      player2.vehicule[0].damage = 1;
+      return;
     } else {
       shotArray.push({ target: target, value: 0 });
       appendDialog(
@@ -142,6 +178,7 @@ player1Canvas.addEventListener('click', (e) => {
       );
       pathImg = './assets/tiles/burnt.bmp';
     }
+    player2Shoot();
     const destX = target.x * tileFormat.w;
     const destY = target.y * tileFormat.h;
     const imageShot = new Image();
@@ -226,6 +263,7 @@ const moveVehicule = (direction) => {
     nextCell.y * tileFormat.h,
     angle
   );
+  player2Shoot();
 };
 
 window.addEventListener('keypress', (e) => {

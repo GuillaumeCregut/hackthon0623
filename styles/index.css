@@ -51,6 +51,7 @@ canvas {
   background-color: white;
   width: 450px;
   height: 600px;
+  overflow-y: scroll;
 }
 
 #dialog-list {
