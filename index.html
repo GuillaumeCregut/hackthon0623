@@ -9,13 +9,54 @@
   <body>
     <h1>Bataille de Koursk</h1>
     <div class="players">
-      <label for="name"
-        >Votre nom : <input type="text" name="name" id="name"
+      <div class="info">
+        Vous devez chercher votre ennemi, tapis dans l'ombre, et le détruire
+        avant qu'il ne vous détruise. Pour cela, vous pouvez vous déplacer en
+        utilisant les touches :<br />
+        <ul class="key-list">
+          <li>q : gauche</li>
+          <li>d : droite</li>
+          <li>z : haut</li>
+          <li>s : bas</li>
+        </ul>
+        Pour tirer, visez une cible et cliquer dessus. Attention, votre char a
+        une portée maximum.
+      </div>
+      <label for="name" class="label-name">
+        Votre nom : <input type="text" name="name" id="name"
       /></label>
     </div>
     <div class="game">
+      <div class="game-settings">
+        <label for="nb-column"
+          >Nombre de colonnes :
+          <select name="select" id="nb-column">
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10" selected>10</option>
+          </select>
+        </label>
+        <label for="nb-line"
+          >Nombre de lignes :
+          <select name="select" id="nb-line">
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10" selected>10</option>
+          </select>
+        </label>
+      </div>
       <button id="start-btn">Démarrer la partie</button>
-      <button id="stop-btn">Démarrer la partie</button>
+      <!-- <button id="stop-btn">Démarrer la partie</button> -->
     </div>
     <div class="game-board">
       <div class="playe-one">

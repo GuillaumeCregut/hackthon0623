@@ -10,7 +10,7 @@ class Vehicule {
     this.tileFormat = tileFormat;
     this.canvas = canvas;
     this.ctx = ctx;
-    this.placeVehicule(this.x, this.y, 180);
+    this.placeVehicule(this.x, this.y, 0);
     this.shotCount = 0;
   }
 
@@ -78,6 +78,7 @@ class Vehicule {
     img.src = path;
 
     img.onload = () => {
+      console.log(img);
       let ratio = 0;
       let imageHeight = 0;
       let imageWidth = 0;

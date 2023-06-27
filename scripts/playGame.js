@@ -1,47 +1,23 @@
 import GameBoard from './classes/GameBoard.js';
 import Player from './classes/Player.js';
 import Vehicule from './classes/Vehicule.js';
+
 const modal = document.getElementById('win-modal');
 const dialog = document.getElementById('dialog-list');
-const bouton = document.getElementById('stop-btn');
+const player1Canvas = document.getElementById('canvas1');
+const startBtn = document.getElementById('start-btn');
+const lineNumber = document.getElementById('nb-line');
+const ColumnNumber = document.getElementById('nb-column');
+//const bouton = document.getElementById('stop-btn');
 
-const clearDialog = () => {
-  while (dialog.firstChild) {
-    dialog.removeChild(dialog.lastChild);
-  }
-};
-
-const displayWin = () => {
-  modal.classList.remove('hidden-modal');
-  modal.classList.add('visible-modal');
-};
-
-const appendDialog = (line) => {
-  const newLine = document.createElement('li');
-  newLine.textContent = line;
-  dialog.appendChild(newLine);
-};
+const ctx1 = player1Canvas.getContext('2d');
 
 const shotArray = [];
 let init = false;
 const obstacle = 2;
-const player2 = new Player('IA');
-const p2Vehicule = { x: 1, y: 1, strength: 4, damage: 0 };
-player2.addVehicule(p2Vehicule);
-
 const tileFormat = { w: 64, h: 64 };
-const player1Canvas = document.getElementById('canvas1');
-player1Canvas.width = tileFormat.w * 10;
-player1Canvas.height = tileFormat.h * 10;
-const ctx1 = player1Canvas.getContext('2d');
-const mapWitdh = 10;
-const mapHeight = 10;
-const newGameBoard = new GameBoard(
-  mapWitdh,
-  mapHeight,
-  tileFormat,
-  player1Canvas
-);
+let mapWitdh = 10;
+let mapHeight = 10;
 let map = [];
 const baseFolder = './assets/tiles/';
 const tiles = [
@@ -51,9 +27,38 @@ const tiles = [
   '12water2.bmp',
 ];
 
+const newGameBoard = new GameBoard(
+  mapWitdh,
+  mapHeight,
+  tileFormat,
+  player1Canvas
+);
+
+player1Canvas.width = tileFormat.w * 10;
+player1Canvas.height = tileFormat.h * 10;
+
 const player1 = new Player('');
 
-const startBtn = document.getElementById('start-btn');
+const player2 = new Player('IA');
+const p2Vehicule = { x: 1, y: 1, strength: 4, damage: 0 };
+player2.addVehicule(p2Vehicule);
+
+const clearDialog = () => {
+  while (dialog.firstChild) {
+    dialog.removeChild(dialog.lastChild);
+  }
+};
+
+const appendDialog = (line) => {
+  const newLine = document.createElement('li');
+  newLine.textContent = line;
+  dialog.appendChild(newLine);
+};
+
+const displayWin = () => {
+  modal.classList.remove('hidden-modal');
+  modal.classList.add('visible-modal');
+};
 
 const drawTile = (ctx, tile, x, y) => {
   const img = new Image(tileFormat.w, tileFormat.h);
@@ -76,7 +81,7 @@ const displayBoard = () => {
 const player2Shoot = () => {
   const p2Vehicule = player2.vehicule[0];
   if (p2Vehicule.damage === 1) return;
-  console.log(p2Vehicule);
+  //console.log(p2Vehicule);
   const cellX = p2Vehicule.x;
   const cellY = p2Vehicule.y;
   const randomFireX = Math.floor(Math.random() * p2Vehicule.strength);
@@ -116,26 +121,79 @@ const player2Shoot = () => {
     }
   }
 };
-bouton.addEventListener('click', player2Shoot);
-startBtn.addEventListener('click', () => {
-  const nameBox = document.getElementById('name');
-  if (nameBox.value === '') {
-    alert('Veuillez saisir votre nom');
+
+const moveVehicule = (direction) => {
+  const vehiculeUSer = player1.vehicule[0];
+  if (!vehiculeUSer) return;
+  const nextCell = {
+    x: 0,
+    y: 0,
+  };
+  const actualCell = vehiculeUSer.getCell();
+  let angle = 0;
+  switch (direction) {
+    case 'z':
+      if (actualCell.y === 0) {
+        const sound = new Audio('./assets/sounds/wrong.mp3');
+        sound.play();
+        return;
+      } else {
+        angle = 180;
+        nextCell.x = actualCell.x;
+        nextCell.y = actualCell.y - 1;
+      }
+      break;
+    case 's':
+      if (actualCell.y === mapHeight - 1) {
+        const sound = new Audio('./assets/sounds/wrong.mp3');
+        sound.play();
+        return;
+      } else {
+        angle = 0;
+        nextCell.x = actualCell.x;
+        nextCell.y = actualCell.y + 1;
+      }
+      break;
+    case 'q':
+      if (actualCell.x === 0) {
+        const sound = new Audio('./assets/sounds/wrong.mp3');
+        sound.play();
+        return;
+      } else {
+        angle = 270;
+        nextCell.x = actualCell.x - 1;
+        nextCell.y = actualCell.y;
+      }
+      break;
+    case 'd':
+      if (actualCell.x === mapWitdh - 1) {
+        const sound = new Audio('./assets/sounds/wrong.mp3');
+        sound.play();
+        return;
+      } else {
+        angle = 90;
+        nextCell.x = actualCell.x + 1;
+        nextCell.y = actualCell.y;
+      }
+
+      break;
+    default:
+      return;
+  }
+  const cellContain = map[nextCell.y][nextCell.x];
+  if (cellContain === obstacle) {
+    const sound = new Audio('./assets/sounds/wrong.mp3');
+    sound.play();
     return;
   }
-  map = [...newGameBoard.getMap()];
-  player1.name = nameBox.value;
-  modal.classList.remove('visible-modal');
-  modal.classList.add('hidden-modal');
-  clearDialog();
-  //Init player2
-  player2.vehicule[0].x = Math.floor(Math.random() * mapWitdh);
-  player2.vehicule[0].y = Math.floor(Math.random() * mapHeight);
-  displayBoard();
-  const newTank = new Vehicule(1, 0, 0, 2, tileFormat, player1Canvas, ctx1);
-  player1.addVehicule(newTank);
-  appendDialog(`${player1.name} initialise la partie`);
-});
+  refreshDraw();
+  player1.vehicule[0].placeVehicule(
+    nextCell.x * tileFormat.w,
+    nextCell.y * tileFormat.h,
+    angle
+  );
+  player2Shoot();
+};
 
 const refreshDraw = () => {
   displayBoard();
@@ -204,79 +262,32 @@ player1Canvas.addEventListener('click', (e) => {
   }
 });
 
-const moveVehicule = (direction) => {
-  const vehiculeUSer = player1.vehicule[0];
-  if (!vehiculeUSer) return;
-  const nextCell = {
-    x: 0,
-    y: 0,
-  };
-  const actualCell = vehiculeUSer.getCell();
-  let angle = 0;
-  switch (direction) {
-    case 'u':
-      if (actualCell.y === 0) {
-        const sound = new Audio('./assets/sounds/wrong.mp3');
-        sound.play();
-        return;
-      } else {
-        angle = 180;
-        nextCell.x = actualCell.x;
-        nextCell.y = actualCell.y - 1;
-      }
-      break;
-    case 'd':
-      if (actualCell.y === mapHeight - 1) {
-        const sound = new Audio('./assets/sounds/wrong.mp3');
-        sound.play();
-        return;
-      } else {
-        angle = 0;
-        nextCell.x = actualCell.x;
-        nextCell.y = actualCell.y + 1;
-      }
-      break;
-    case 'l':
-      if (actualCell.x === 0) {
-        const sound = new Audio('./assets/sounds/wrong.mp3');
-        sound.play();
-        return;
-      } else {
-        angle = 270;
-        nextCell.x = actualCell.x - 1;
-        nextCell.y = actualCell.y;
-      }
-      break;
-    case 'r':
-      if (actualCell.x === mapWitdh - 1) {
-        const sound = new Audio('./assets/sounds/wrong.mp3');
-        sound.play();
-        return;
-      } else {
-        angle = 90;
-        nextCell.x = actualCell.x + 1;
-        nextCell.y = actualCell.y;
-      }
-
-      break;
-    default:
-      return;
-  }
-  const cellContain = map[nextCell.y][nextCell.x];
-  if (cellContain === obstacle) {
-    const sound = new Audio('./assets/sounds/wrong.mp3');
-    sound.play();
+startBtn.addEventListener('click', () => {
+  const nameBox = document.getElementById('name');
+  if (nameBox.value === '') {
+    alert('Veuillez saisir votre nom');
     return;
   }
-  refreshDraw();
-  player1.vehicule[0].placeVehicule(
-    nextCell.x * tileFormat.w,
-    nextCell.y * tileFormat.h,
-    angle
-  );
-  player2Shoot();
-};
+  mapWitdh = parseInt(lineNumber.value, 10);
+  mapHeight = parseInt(ColumnNumber.value, 10);
+  newGameBoard.height = mapWitdh;
+  newGameBoard.width = mapHeight;
+  map = [...newGameBoard.getMap()];
+  player1.name = nameBox.value;
+  modal.classList.remove('visible-modal');
+  modal.classList.add('hidden-modal');
+  clearDialog();
+  //Init player2
+  player2.vehicule[0].x = Math.floor(Math.random() * mapWitdh);
+  player2.vehicule[0].y = Math.floor(Math.random() * mapHeight);
+  displayBoard();
+  const newTank = new Vehicule(1, 0, 0, 2, tileFormat, player1Canvas, ctx1);
+  player1.addVehicule(newTank);
+  appendDialog(`${player1.name} initialise la partie`);
+});
 
 window.addEventListener('keypress', (e) => {
   moveVehicule(e.key);
 });
+
+//bouton.addEventListener('click', player2Shoot);

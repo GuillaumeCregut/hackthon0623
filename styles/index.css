@@ -1,9 +1,39 @@
+@font-face {
+  font-family: german;
+  src: url('../assets/GermaniaOne-Regular.ttf');
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 body {
   background-image: url('../assets/background2.jpg');
   background-repeat: no-repeat;
   background-size: cover;
+  padding: 10px;
 }
 
+h1 {
+  text-align: center;
+  font-family: german;
+  font-size: 75px;
+}
+
+.info {
+  margin: 10px auto;
+  width: 50vw;
+}
+
+.key-list {
+  list-style: none;
+}
+
+.label-name {
+  margin: 20px 0;
+  display: block;
+}
 .game-board {
   display: flex;
   gap: 100px;
@@ -12,12 +42,12 @@ body {
   min-width: 640px;
   min-height: 640px;
   background-color: rgba(73, 69, 69, 0.634);
-  cursor: url('../assets/target.cur'), pointer;
 }
 canvas {
   width: 640px;
   height: 640px;
   position: relative;
+  cursor: url('../assets/target.cur'), pointer;
 }
 
 .win-modal {
